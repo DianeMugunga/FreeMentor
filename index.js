@@ -12,15 +12,29 @@ app.use(bodyParser.json());
 
 app.use ("/freementor/v1/user",userRoutes);
 
+app.use('/',(req,res)=>{
+    res.status(404).send({
+        status:404,
+        message:"This route does not exist"
+    })
+})
+
 app.get("/",function(request,response){
 response.send("Hello World!")
 })
 
+
 const databaseUrl=process.env.DATABASE;
 mongoose.connect(databaseUrl,{useNewUrlParser:true,useCreateIndex:true,useUnifiedTopology:true,useFindAndModify:false}).then(()=>console.log("Database connected succesful"));
 
-app.listen(10000, function () {
-    console.log(databaseUrl);
+const port=process.env.PORT;
+app.listen(port, ()=> {
+    //console.log(databaseUrl);
 
-console.log("Started application on port %d", 10000)
-});
+
+
+    console.log(`server is running on port ${port}`);
+})
+
+
+export default app;
