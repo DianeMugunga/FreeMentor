@@ -1,5 +1,6 @@
 import bodyParser from "body-parser";
-import userRoutes from "./controlers/routes/userRoute";
+import userRoutes from "./server/routes/userRoute.js";
+import sessionRouter from "./server/routes/sessionroute.js";
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -11,6 +12,8 @@ var app = express();
 app.use(bodyParser.json());
 
 app.use ("/freementor/v1/user",userRoutes);
+app.use ("/freementor/v1/session",sessionRouter);
+
 
 app.use('/',(req,res)=>{
     res.status(404).send({
