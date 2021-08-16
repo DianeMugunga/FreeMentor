@@ -4,7 +4,6 @@
   "description": "Free Mentors is a social initiative where accomplished professionals become role models to young people to provide free mentorship sessions",
   "main": "index.js",
   "scripts": {
-    "build": "babel index.js — out-file index-compiled.js",
     "start": "babel-node ./index.js",
     "dev-start": "nodemon --exec babel-node index.js",
     "test": "test"
