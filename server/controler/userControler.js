@@ -1,5 +1,6 @@
 import UserInfo from "../models/userModel";
 import TokenAuth from "../helpers/TokenAuth";
+import bcrypt from "bcrypt";
 
 class UserControler {
 
@@ -9,7 +10,7 @@ class UserControler {
         const { email, password } = req.body;
 
 
-        const user = await UserInfo.findOne({ email: email, password: password });
+        const user = await UserInfo.findOne({ email: email });
 
         if (!user) {
             return res.status(404).json({
@@ -18,6 +19,8 @@ class UserControler {
 
             })
         }
+        if(bcrypt.compareSync(password,user.password)){
+
 
 
         const token = TokenAuth.tokenGenerator({
@@ -33,9 +36,22 @@ class UserControler {
             data: user
         })
     }
+    return res.status(404).json({
+        status: 404,
+        message: "Password is incorrect, Please try again.."
+
+    })
+
+}
     //function to register a user
 
     static signupUser = async(req,res)=>{
+        const saltRound =10;
+        console.log("yup")
+        const hashPassword = bcrypt.hashSync(req.body.password,saltRound);
+        console.log(hashPassword)
+        req.body.password= hashPassword;
+        
         const user = await UserInfo.create(req.body);
 
         if(!user){
@@ -127,7 +143,7 @@ class UserControler {
                 
                         })
                 
-                        }
+                        }  
 
                     static updateUserRole = async(req,res)=>{
                     const data = await UserInfo.findById(req.params.id);

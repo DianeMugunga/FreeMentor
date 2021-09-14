@@ -59,9 +59,10 @@ static sessionRegister = async(req,res)=>{
             })
     
             }
-
+        
 
              static updateSessionStatusAproved = async(req,res)=>{
+                 
                     const data = await sessionInfo.findById(req.params.id);
                     let Status;
                     
@@ -152,6 +153,25 @@ static sessionRegister = async(req,res)=>{
                             })
                     
                             }
-}
+                            static sessionRequest = async (req, res) => {
+                                console.log(req.user);
+                                req.body.user= req.user.id;
+                                const session = await sessionInfo.create(req.body);
+                        
+                                if (!session) {
+                                    return res.statu(400).json({
+                                        status: 400,
+                                        message: "failed to make request"
+                                    })
+                                }
+                        
+                                return res.status(200).json({
+                                    statu: 200,
+                                    message: "success",
+                                    data: session
+                                })
+                            }
+                        }
+
 
 export default sessionControler;
